@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/core/locator.dart';
 import 'package:my_app/services/local_storage_service.dart';
-
+import '../../services/apiservice.dart';
 import 'bloc/counter_bloc.dart';
 import 'bloc/counter_event.dart';
 import 'bloc/counter_state.dart';
@@ -43,6 +43,7 @@ class CounterPage extends StatelessWidget {
                         duration: Duration(seconds: 1),
                       )),
                     }),
+            Text(Binary().getData(state.counter.toString())),
           ]);
         })));
   }
