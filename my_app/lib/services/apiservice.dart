@@ -7,8 +7,8 @@ class Binary {
     var response = await http.get(url);
 
     Map data = jsonDecode(response.body);
-    var finalData = data['converted'];
+    String finalData = data['converted'];
     print(finalData);
-    return Future.value(finalData);
+    return finalData;
   }
 }

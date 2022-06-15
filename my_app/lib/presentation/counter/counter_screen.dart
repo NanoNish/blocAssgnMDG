@@ -9,16 +9,14 @@ import 'bloc/counter_state.dart';
 
 class CounterPage extends StatelessWidget {
   //int get counter => locator<LocalStorageService>().stateValue;
-
+  String bin = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Counter')),
         body: Center(child:
             BlocBuilder<CounterBloc, CounterState>(builder: (context, state) {
-          return Column(children: [
-            Text('${state.counter}',
-                style: Theme.of(context).textTheme.headline1),
+          return Row(children: [
             FloatingActionButton(
                 child: const Icon(Icons.add),
                 onPressed: () => {
@@ -31,6 +29,29 @@ class CounterPage extends StatelessWidget {
                         duration: Duration(seconds: 1),
                       )),
                     }),
+            const SizedBox(
+              width: 8,
+            ),
+            Text('${state.counter}',
+                style: Theme.of(context).textTheme.headline1),
+            const SizedBox(
+              width: 8,
+            ),
+            FutureBuilder<String?>(
+                future: Binary().getData(state.counter.toString()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    String? data = snapshot.data;
+                    if (data != null) {
+                      bin = data;
+                      return Text(bin);
+                    }
+                  }
+                  return const CircularProgressIndicator();
+                }),
+            const SizedBox(
+              width: 8,
+            ),
             FloatingActionButton(
                 child: const Icon(Icons.remove),
                 onPressed: () => {
@@ -43,7 +64,6 @@ class CounterPage extends StatelessWidget {
                         duration: Duration(seconds: 1),
                       )),
                     }),
-            Text(Binary().getData(state.counter.toString())),
           ]);
         })));
   }
