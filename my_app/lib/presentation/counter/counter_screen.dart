@@ -17,53 +17,50 @@ class CounterPage extends StatelessWidget {
         body: Center(child:
             BlocBuilder<CounterBloc, CounterState>(builder: (context, state) {
           return Row(children: [
-            FloatingActionButton(
-                child: const Icon(Icons.add),
-                onPressed: () => {
-                      print("+1"),
-                      context
-                          .read<CounterBloc>()
-                          .add(Increment(counter: state.counter)),
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text('Oh Boy this increases'),
-                        duration: Duration(seconds: 1),
-                      )),
-                    }),
-            const SizedBox(
-              width: 8,
-            ),
+            Expanded(
+                child: FloatingActionButton(
+                    child: const Icon(Icons.add),
+                    onPressed: () => {
+                          print("+1"),
+                          context
+                              .read<CounterBloc>()
+                              .add(Increment(counter: state.counter)),
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Oh Boy this increases'),
+                            duration: Duration(seconds: 1),
+                          )),
+                        })),
             Text('${state.counter}',
                 style: Theme.of(context).textTheme.headline1),
             const SizedBox(
-              width: 8,
+              width: 30,
             ),
-            FutureBuilder<String?>(
-                future: Binary().getData(state.counter.toString()),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    String? data = snapshot.data;
-                    if (data != null) {
-                      bin = data;
-                      return Text(bin);
-                    }
-                  }
-                  return const CircularProgressIndicator();
-                }),
-            const SizedBox(
-              width: 8,
-            ),
-            FloatingActionButton(
-                child: const Icon(Icons.remove),
-                onPressed: () => {
-                      print("-1"),
-                      context
-                          .read<CounterBloc>()
-                          .add(Decrement(counter: state.counter)),
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text('Oh Boy this decreases'),
-                        duration: Duration(seconds: 1),
-                      )),
-                    }),
+            Expanded(
+                child: FutureBuilder<String?>(
+                    future: Binary().getData(state.counter.toString()),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        String? data = snapshot.data;
+                        if (data != null) {
+                          bin = data;
+                          return Text(bin);
+                        }
+                      }
+                      return const CircularProgressIndicator();
+                    })),
+            Expanded(
+                child: FloatingActionButton(
+                    child: const Icon(Icons.remove),
+                    onPressed: () => {
+                          print("-1"),
+                          context
+                              .read<CounterBloc>()
+                              .add(Decrement(counter: state.counter)),
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Oh Boy this decreases'),
+                            duration: Duration(seconds: 1),
+                          )),
+                        })),
           ]);
         })));
   }
