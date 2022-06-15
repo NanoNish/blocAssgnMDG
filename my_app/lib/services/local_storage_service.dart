@@ -1,31 +1,34 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import './apiservice.dart';
 
-class LocalStorageService {
-  static late LocalStorageService _instance;
+class LocalStorage {
+  static late LocalStorage _instance;
   static late SharedPreferences _preferences;
 
   static const String stateValueKey = 'state_value_key';
 
-  static Future<LocalStorageService> getInstance() async {
-    _instance = LocalStorageService();
+  static Future<LocalStorage> getInstance() async {
+    _instance = LocalStorage();
     _preferences = await SharedPreferences.getInstance();
     return _instance;
   }
 
-  dynamic _getFromDisk(String key) {
-    final value = _preferences.get(key);
-    return value;
+  static String getCount() {
+    var data = _preferences.getString("initialNumber");
+    return data ?? "0";
   }
 
-  void _saveToDisk<T>(String key, T content) {
-    if (content is int) {
-      _preferences.setInt(key, content);
-    }
+  // static String getBin() {
+  //   var data = _preferences.getString("initialNumber");
+  //   return data ?? "0";
+  // }
+
+  static void setCount(String count) async {
+    _preferences.setString("initialNumber", count);
   }
 
-  int get stateValue => _getFromDisk(stateValueKey);
-
-  set stateValue(int number) {
-    _saveToDisk(stateValueKey, number);
-  }
+  // static void setBin(String count) async {
+  //   var resp = await Binary().getData(count);
+  //   _preferences.setString("Binary", resp);
+  // }
 }
